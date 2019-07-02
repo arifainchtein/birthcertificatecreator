@@ -55,10 +55,12 @@ public class BirthCertificateCreator
 
 	public BirthCertificateCreator() {
 	}
-	public void create(String teleonomeName, String secret, String  base32secret, String  pwd, String   wifipwd, String postgresqlPassword, int postgresqlPort) {
+	public void create(String teleonomeName, String totpSharedSecret, String  base32Secret, String  piUserPasswrd, String wifipwd, String postgresqlPassword, int postgresqlPort) {
 		logger = Logger.getLogger(getClass());
 		//
 		//read the file
+		//
+		
 		try {
 			
 			try {
@@ -93,31 +95,29 @@ public class BirthCertificateCreator
 				int count = stream.read(data);
 
 				FileUtils.writeByteArrayToFile(new File("DigitalGeppettoSecret.png"), data);
-
-				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
-				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
-
-				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPrivateKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH);
-				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPublicKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH);
+				
+				generateQRCodeImage(FileUtils.readFileToString(new File(base32Secret)), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
+//				
+//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
+//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
+//
+//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPrivateKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH);
+//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPublicKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH);
 
 			} catch (IOException e) {
 				logger.warn(Utils.getStringException(e));;
+			} catch (WriterException e) {
+				// TODO Auto-generated catch block
+				logger.warn(Utils.getStringException(e));
 			}
-
-//			String teleonomeName = birthCertificateJSONObject.getString("TeleonomeName");
-//			String creator = birthCertificateJSONObject.getString("Creator");
-//			String piUserPasswrd = birthCertificateJSONObject.getString("Pi User Password");
-//			String totpSharedSecret = birthCertificateJSONObject.getString("TOTP Shared Secret");
 			
-			
-			
-			String htmlText = generateHTMLFile( teleonomeName,  secret,   base32secret,   pwd,    wifipwd );
+			String htmlText = generateHTMLFile( teleonomeName, totpSharedSecret,base32Secret, piUserPasswrd,wifipwd );
 			File htmlFile = new File("BC.html");
 			File birtCertificateFile = new File("BirthCertificate.pdf");
 			FileUtils.writeStringToFile(htmlFile, htmlText.toString());
 
 			PDDocument pdf = PDDocument.load(htmlFile);
-			Writer output = new PrintWriter("./BirthCertificate.pdf", "utf-8");
+			Writer output = new PrintWriter("BirthCertificate.pdf", "utf-8");
 			new PDFDomTree().writeText(pdf, output);
 			output.close();
 		} catch (JSONException e) {
@@ -177,7 +177,7 @@ public class BirthCertificateCreator
 	}
 
 	///
-	// java -jar BirthCertificateGenerator.jar Cleotilde  ZmViOWRhZGNkYz LJWVM2KPK5JGQWSHJZVVS6Q= YmYyYWE4OW YjgwMmQ3 ZTYwMTFmOT 29923
+	// java -jar BirthCertificateCreator.jar Cleotilde  ZmViOWRhZGNkYz LJWVM2KPK5JGQWSHJZVVS6Q= YmYyYWE4OW YjgwMmQ3 ZTYwMTFmOT 29923
 	
 	public static void main( String[] args )
 	{
