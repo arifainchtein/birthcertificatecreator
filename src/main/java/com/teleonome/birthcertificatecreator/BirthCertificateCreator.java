@@ -55,7 +55,7 @@ public class BirthCertificateCreator
 
 	public BirthCertificateCreator() {
 	}
-	public void create(String teleonomeName, String secret, String  base32secret, String  pwd, String   wifipwd) {
+	public void create(String teleonomeName, String secret, String  base32secret, String  pwd, String   wifipwd, String postgresqlPassword, int postgresqlPort) {
 		logger = Logger.getLogger(getClass());
 		//
 		//read the file
@@ -94,14 +94,12 @@ public class BirthCertificateCreator
 
 				FileUtils.writeByteArrayToFile(new File("DigitalGeppettoSecret.png"), data);
 
-				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
-				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
+				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
+				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
 
-				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPrivateKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH);
-				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPublicKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH);
+				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPrivateKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH);
+				//generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPublicKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH);
 
-			} catch (WriterException e) {
-				logger.warn(Utils.getStringException(e));;
 			} catch (IOException e) {
 				logger.warn(Utils.getStringException(e));;
 			}
@@ -139,8 +137,8 @@ public class BirthCertificateCreator
 	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd ) {
 		StringBuffer htmlText = new StringBuffer("<html><body><center><H3>Birth Certificate</h3><br><h1>MonoNanny3</h1>");
 		htmlText.append(teleonomeName);
-		htmlText.append("<br><br>Created by ");
-		htmlText.append(creator); 
+		//htmlText.append("<br><br>Created by ");
+		//htmlText.append(creator); 
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 		sdf.setTimeZone(TimeZone.getTimeZone("CET"));
@@ -159,11 +157,11 @@ public class BirthCertificateCreator
 		htmlText.append("<tr><td width=\"20%\">TOTP Shared Secret Base32</td><td align=\"center\" width=\"80%\"><b>");
 		htmlText.append(base32secret);
 		htmlText.append("</b></td></tr>");
-		htmlText.append("<tr><td>SSH Private Key</td><td><img src=\""+ QR_CODE_SSH_PRIVATE_KEY_PATH+"\" /></td></tr>");
-		htmlText.append("<tr><td>SSH Public Key</td><td><img src=\""+ QR_CODE_SSH_PUBLIC_KEY_PATH+"\" /></td></tr>");
+		//htmlText.append("<tr><td>SSH Private Key</td><td><img src=\""+ QR_CODE_SSH_PRIVATE_KEY_PATH+"\" /></td></tr>");
+		//htmlText.append("<tr><td>SSH Public Key</td><td><img src=\""+ QR_CODE_SSH_PUBLIC_KEY_PATH+"\" /></td></tr>");
 
-		htmlText.append("<tr><td>Digital Geppetto SSH Private Key</td><td><img src=\""+ QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH+"\" /></td></tr>");
-		htmlText.append("<tr><td>Digital Geppetto SSH Public Key</td><td><img src=\""+ QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH+"\" /></td></tr>");
+		//htmlText.append("<tr><td>Digital Geppetto SSH Private Key</td><td><img src=\""+ QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH+"\" /></td></tr>");
+		//htmlText.append("<tr><td>Digital Geppetto SSH Public Key</td><td><img src=\""+ QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH+"\" /></td></tr>");
 
 		htmlText.append("<table></center></body></html>");
 		return htmlText.toString();
@@ -178,19 +176,25 @@ public class BirthCertificateCreator
 		MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 	}
 
+	///
+	// java -jar BirthCertificateGenerator.jar Cleotilde  ZmViOWRhZGNkYz LJWVM2KPK5JGQWSHJZVVS6Q= YmYyYWE4OW YjgwMmQ3 ZTYwMTFmOT 29923
+	
 	public static void main( String[] args )
 	{
 
 		// $secret   $base32secret  $pwd   $wifipwd 
 
-		if(args.length==5) {
+		if(args.length==7) {
 			String teleonomeName=args[0];
 			String secret=args[1];
 			String base32secret=args[2];
 			String pwd=args[3];
 			String wifipwd=args[4];
+			String postgresqlPassword = args[5];
+			int postgresqlPort = Integer.parseInt(args[6]);
+			
 			BirthCertificateCreator b = new BirthCertificateCreator();
-			b.create(teleonomeName, secret,  base32secret,  pwd   ,wifipwd);
+			b.create(teleonomeName, secret,  base32secret,  pwd   ,wifipwd, postgresqlPassword, postgresqlPort);
 		}else {
 			System.out.println("Usage sudo sh CreateBirthCertificate.sh teleonomeName secret  base32secret  pwd   wifipwd ");
 			System.exit(0);
