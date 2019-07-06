@@ -239,7 +239,12 @@ public class BirthCertificateCreator
 			BirthCertificateCreator b = new BirthCertificateCreator();
 			b.create(teleonomeName, secret,  base32secret,  pwd  ,wifipwd, postgresqlPassword, postgresqlPort);
 		}else {
-			System.out.println("Usage sudo sh CreateBirthCertificate.sh teleonomeName secret  base32secret  pwd   wifipwd ");
+			for(int i=0;i<args.length;i++) {
+				System.out.println("i=" +i + " "  + args[i]);
+				
+				
+			}
+			System.out.println("Usage sudo sh CreateBirthCertificate.sh teleonomeName secret  base32secret  pwd   wifipwd postgresqlPassword, postgresqlPort");
 			System.exit(0);
 		}
 
