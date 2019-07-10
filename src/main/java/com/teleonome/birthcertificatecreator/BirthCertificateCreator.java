@@ -131,7 +131,7 @@ public class BirthCertificateCreator
 				logger.warn(Utils.getStringException(e));
 			}
 			
-			String htmlText = generateHTMLFile( teleonomeName, totpSharedSecret,base32Secret, piUserPasswrd,wifipwd );
+			String htmlText = generateHTMLFile( teleonomeName, totpSharedSecret,base32Secret, piUserPasswrd,wifipwd, postgresqlPassword,  postgresqlPort );
 			File htmlFile = new File("BC.html");
 			File birtCertificateFile = new File("BirthCertificate.pdf");
 			FileUtils.writeStringToFile(htmlFile, htmlText.toString());
@@ -175,7 +175,7 @@ public class BirthCertificateCreator
 	}
 
 
-	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd ) {
+	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd,String postgresqlPassword, int postgresqlPort ) {
 		StringBuffer htmlText = new StringBuffer("<html><body><center><h3>Birth Certificate</h3><br></br><h1>"+teleonomeName+"</h1>");
 		//htmlText.append(teleonomeName);
 		htmlText.append("<br></br><br></br>Created by ");
@@ -201,6 +201,14 @@ public class BirthCertificateCreator
 		htmlText.append(base32secret);
 		htmlText.append("</b></td><td width=\"10%\"></td></tr>");
 //		
+		htmlText.append("<tr><td width=\"20%\">Postgresql Password</td><td align=\"center\" width=\"70%\"><b>");
+		htmlText.append(postgresqlPassword);
+		htmlText.append("</b></td><td width=\"10%\"></td></tr>");
+//		
+		htmlText.append("<tr><td width=\"20%\">Postgresql Port</td><td align=\"center\" width=\"70%\"><b>");
+		htmlText.append(postgresqlPort);
+		htmlText.append("</b></td><td width=\"10%\"></td></tr>");
+		
 		htmlText.append("<tr>");
 		htmlText.append("<td width=\"98%\"><img src=\""+ QR_CODE_TOTP_KEY_PATH+"\" /><br></br>TOTP Secret QR Code</td><td></td><td></td></tr>");
 		htmlText.append("</table></center></body></html>");
