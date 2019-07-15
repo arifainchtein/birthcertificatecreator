@@ -241,7 +241,6 @@ public class BirthCertificateCreator
 			String base32secret=args[2];
 			//
 			// check to see if there is an = at the end, this is padding, if not, then add it
-			if(base32secret.endsWith("="))base32secret=base32secret.concat("=");
 			String pwd=args[3];
 			String wifipwd=args[4];
 			String postgresqlPassword = args[5];
