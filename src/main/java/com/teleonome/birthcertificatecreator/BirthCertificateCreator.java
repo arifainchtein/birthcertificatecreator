@@ -226,8 +226,9 @@ public class BirthCertificateCreator
 	}
 
 	///
-	// java -jar BirthCertificateCreator.jar Cleotilde  ZmViOWRhZGNkYz LJWVM2KPK5JGQWSHJZVVS6Q= YmYyYWE4OW YjgwMmQ3 ZTYwMTFmOT 29923
-	
+	// java -jar BirthCertificateCreator.jar Cleotilde  M2RjZGZiZWIxYT  JUZFE2S2I5NGSWSXJF4FSVAK= ZDA1NDE1ZG ZDA1NDE1 ZTYwMTFmOT 26907
+	//sudo java -jar BirthCertificateCreator.jar $teleonomeName $secret   $base32secret  $pwd   $wifipwd $newPostgresqlUserPassword $postgresqlPort
+
 	public static void main( String[] args )
 	{
 
@@ -239,8 +240,6 @@ public class BirthCertificateCreator
 			String teleonomeName=args[0];
 			String secret=args[1];
 			String base32secret=args[2];
-			//
-			// check to see if there is an = at the end, this is padding, if not, then add it
 			String pwd=args[3];
 			String wifipwd=args[4];
 			String postgresqlPassword = args[5];
