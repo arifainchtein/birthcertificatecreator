@@ -233,12 +233,15 @@ public class BirthCertificateCreator
 
 		// $secret   $base32secret  $pwd   $wifipwd 
 //		BirthCertificateCreator b = new BirthCertificateCreator();
-//		b.create("Cleotilde", "ZmViOWRhZGNkYz",  "LJWVM2KPK5JGQWSHJZVVS6Q=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
+//		b.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
 //		
 		if(args.length==7) {
 			String teleonomeName=args[0];
 			String secret=args[1];
 			String base32secret=args[2];
+			//
+			// check to see if there is an = at the end, this is padding, if not, then add it
+			if(base32secret.endsWith("="))base32secret=base32secret.concat("=");
 			String pwd=args[3];
 			String wifipwd=args[4];
 			String postgresqlPassword = args[5];
