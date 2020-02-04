@@ -19,9 +19,6 @@ import java.nio.file.FileSystems;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.fit.pdfdom.PDFDomTree;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -34,10 +31,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.lowagie.text.DocumentException;
 import com.teleonome.framework.tools.SendOneCommandToArduino;
 import com.teleonome.framework.utils.Utils;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -116,7 +109,7 @@ public class BirthCertificateCreator
 				//String base32QRText = "otpauth://totp/"+teleonomeName+":"+email +"?digits=6&period=30&secret="+ totpSharedSecret+"&issuer=" + teleonomeName;
 				String base32QRText = "otpauth://totp/"+teleonomeName+":"+email +"?digits=6&period=30&secret="+ base32Secret+"&issuer=" + teleonomeName;
 				System.out.println(base32QRText);	
-				generateQRCodeImage(base32QRText, 350, 350, QR_CODE_TOTP_KEY_PATH);
+				generateQRCodeImage(base32QRText, 150, 150, QR_CODE_TOTP_KEY_PATH);
 //				
 //				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
 //				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
@@ -173,10 +166,55 @@ public class BirthCertificateCreator
 		}
 
 	}
-
-
 	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd,String postgresqlPassword, int postgresqlPort ) {
-		StringBuffer htmlText = new StringBuffer("<html><body><center><h3>Birth Certificate</h3><br></br><h1>"+teleonomeName+"</h1>");
+		StringBuffer htmlText = new StringBuffer("<html><head><style></style></head><body><center><h6>Birth Certificate</h6><h3>"+teleonomeName+"</h3>");
+		//htmlText.append(teleonomeName);
+		//htmlText.append(creator); 
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+		String now = sdf.format(date);
+		htmlText.append("Created on " + now ); 
+		htmlText.append("<br />");
+		
+		htmlText.append("<table cellpadding=\"2\"><tr>");
+			htmlText.append("<td><img src=\""+ QR_CODE_TOTP_KEY_PATH+"\" /><br></br>TOTP Secret QR Code</td><td></td><td></td>");
+		htmlText.append("<td>");
+		
+		htmlText.append("<table border=\"2\" cellpadding=\"2\">");
+		htmlText.append("<tr><td>Pi User Password</td><td align=\"center\"><b>");
+		htmlText.append(piUserPasswrd);
+		htmlText.append("</b></td></tr>");
+		htmlText.append("<tr><td >Wifi Password</td><td align=\"center\"><b>");
+		htmlText.append(wifipwd);
+		htmlText.append("</b></td></tr>");
+		htmlText.append("<tr><td >TOTP Shared Secret</td><td align=\"center\"><b>");
+		htmlText.append(secret);
+		htmlText.append("</b></td></tr>");
+		
+		htmlText.append("<tr><td >TOTP Shared Secret Base32</td><td align=\"center\"><b>");
+		htmlText.append(base32secret);
+		htmlText.append("</b></td></tr>");
+//		
+		htmlText.append("<tr><td >Postgresql Password</td><td align=\"center\"><b>");
+		htmlText.append(postgresqlPassword);
+		htmlText.append("</b></td></tr>");
+//		
+		htmlText.append("<tr><td >Postgresql Port</td><td align=\"center\"><b>");
+		htmlText.append(postgresqlPort);
+		htmlText.append("</b></td></tr>");
+		htmlText.append("</table>");
+		htmlText.append("</td>");;
+		
+		htmlText.append("</tr></table></center></body></html>");
+		
+
+		System.out.println(htmlText);
+		return htmlText.toString();
+	}
+
+	private String generateHTMLFileA4(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd,String postgresqlPassword, int postgresqlPort ) {
+		StringBuffer htmlText = new StringBuffer("<html><head><style></style></head><body><center><h3>Birth Certificate</h3><br></br><h1>"+teleonomeName+"</h1>");
 		//htmlText.append(teleonomeName);
 		htmlText.append("<br></br><br></br>Created by ");
 		//htmlText.append(creator); 
@@ -233,8 +271,8 @@ public class BirthCertificateCreator
 	{
 
 		// $secret   $base32secret  $pwd   $wifipwd 
-//		BirthCertificateCreator b = new BirthCertificateCreator();
-//		b.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
+		//BirthCertificateCreator b2 = new BirthCertificateCreator();
+	//	b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
 //		
 		if(args.length==7) {
 			String teleonomeName=args[0];
