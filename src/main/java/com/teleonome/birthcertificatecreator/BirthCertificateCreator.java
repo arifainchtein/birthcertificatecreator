@@ -167,14 +167,14 @@ public class BirthCertificateCreator
 
 	}
 	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd,String postgresqlPassword, int postgresqlPort ) {
-		StringBuffer htmlText = new StringBuffer("<html><head><style></style></head><body><center><h6>Birth Certificate</h6><h3>"+teleonomeName+"</h3>");
+		StringBuffer htmlText = new StringBuffer("<html><head><style></style></head><body><center><h1>"+teleonomeName+"</h1>");
 		//htmlText.append(teleonomeName);
 		//htmlText.append(creator); 
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		sdf.setTimeZone(TimeZone.getTimeZone("CET"));
 		String now = sdf.format(date);
-		htmlText.append("Created on " + now ); 
+		htmlText.append("Birth Certificate created on " + now ); 
 		htmlText.append("<br />");
 		
 		htmlText.append("<table cellpadding=\"2\"><tr>");
@@ -271,8 +271,8 @@ public class BirthCertificateCreator
 	{
 
 		// $secret   $base32secret  $pwd   $wifipwd 
-		//BirthCertificateCreator b2 = new BirthCertificateCreator();
-	//	b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
+		BirthCertificateCreator b2 = new BirthCertificateCreator();
+		b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
 //		
 		if(args.length==7) {
 			String teleonomeName=args[0];
