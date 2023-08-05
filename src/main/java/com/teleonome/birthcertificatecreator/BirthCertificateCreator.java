@@ -58,7 +58,8 @@ public class BirthCertificateCreator
 		PropertyConfigurator.configure(fileName);
 		logger = Logger.getLogger(getClass());
 	}
-	public void create(String teleonomeName, String totpSharedSecret, String  base32Secret, String  piUserPasswrd, String wifipwd, String postgresqlPassword, int postgresqlPort) {
+	public void create(String teleonomeName, String totpSharedSecret, String  base32Secret, String  piUserPasswrd, String wifipwd, 
+			String postgresqlPassword, int postgresqlPort, String serialPort) {
 		
 		//
 		//read the file
@@ -272,9 +273,9 @@ public class BirthCertificateCreator
 
 		// $secret   $base32secret  $pwd   $wifipwd 
 		BirthCertificateCreator b2 = new BirthCertificateCreator();
-		b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
+	//	b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
 //		
-		if(args.length==7) {
+		if(args.length==8) {
 			String teleonomeName=args[0];
 			String secret=args[1];
 			String base32secret=args[2];
@@ -282,16 +283,16 @@ public class BirthCertificateCreator
 			String wifipwd=args[4];
 			String postgresqlPassword = args[5];
 			int postgresqlPort = Integer.parseInt(args[6]);
-			
+			String serialNumber = args[7];
 			BirthCertificateCreator b = new BirthCertificateCreator();
-			b.create(teleonomeName, secret,  base32secret,  pwd  ,wifipwd, postgresqlPassword, postgresqlPort);
+			b.create(teleonomeName, secret,  base32secret,  pwd  ,wifipwd, postgresqlPassword, postgresqlPort, serialNumber);
 		}else {
 			for(int i=0;i<args.length;i++) {
 				System.out.println("i=" +i + " "  + args[i]);
 				
 				
 			}
-			System.out.println("Usage sudo sh CreateBirthCertificate.sh teleonomeName secret  base32secret  pwd   wifipwd postgresqlPassword, postgresqlPort");
+			System.out.println("Usage sudo sh CreateBirthCertificate.sh teleonomeName secret  base32secret  pwd   wifipwd postgresqlPassword, postgresqlPort, serialnumber");
 			System.exit(0);
 		}
 
