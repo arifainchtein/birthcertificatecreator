@@ -59,7 +59,7 @@ public class BirthCertificateCreator
 		logger = Logger.getLogger(getClass());
 	}
 	public void create(String teleonomeName, String totpSharedSecret, String  base32Secret, String  piUserPasswrd, String wifipwd, 
-			String postgresqlPassword, int postgresqlPort, String serialPort) {
+			String postgresqlPassword, int postgresqlPort, String serialNumber) {
 		
 		//
 		//read the file
@@ -125,7 +125,7 @@ public class BirthCertificateCreator
 				logger.warn(Utils.getStringException(e));
 			}
 			
-			String htmlText = generateHTMLFile( teleonomeName, totpSharedSecret,base32Secret, piUserPasswrd,wifipwd, postgresqlPassword,  postgresqlPort );
+			String htmlText = generateHTMLFile( teleonomeName, totpSharedSecret,base32Secret, piUserPasswrd,wifipwd, postgresqlPassword,  postgresqlPort, serialNumber );
 			File htmlFile = new File("BC.html");
 			File birtCertificateFile = new File("BirthCertificate.pdf");
 			FileUtils.writeStringToFile(htmlFile, htmlText.toString());
@@ -167,7 +167,8 @@ public class BirthCertificateCreator
 		}
 
 	}
-	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, String piUserPasswrd, String wifipwd,String postgresqlPassword, int postgresqlPort ) {
+	private String generateHTMLFile(String teleonomeName, String secret,String base32secret, 
+			String piUserPasswrd, String wifipwd,String postgresqlPassword, int postgresqlPort, String serialNumber ) {
 		StringBuffer htmlText = new StringBuffer("<html><head><style></style></head><body><center><h1>"+teleonomeName+"</h1>");
 		//htmlText.append(teleonomeName);
 		//htmlText.append(creator); 
@@ -183,6 +184,10 @@ public class BirthCertificateCreator
 		htmlText.append("<td>");
 		
 		htmlText.append("<table border=\"2\" cellpadding=\"2\">");
+		htmlText.append("<tr><td >Serial Number</td><td align=\"center\"><b>");
+		htmlText.append(serialNumber);
+		htmlText.append("</b></td></tr>");
+		
 		htmlText.append("<tr><td>Pi User Password</td><td align=\"center\"><b>");
 		htmlText.append(piUserPasswrd);
 		htmlText.append("</b></td></tr>");
