@@ -47,14 +47,14 @@ public class BirthCertificateCreator
 {
 	private static String buildNumber="";
 	Logger logger;
-	private static final String QR_CODE_SSH_PRIVATE_KEY_PATH = "./sshPrivateKey.png";
-	private static final String QR_CODE_SSH_PUBLIC_KEY_PATH = "./sshPulicKey.png";
+	private static final String QR_CODE_SSH_PRIVATE_KEY_PATH = "./ssh/PrivateKey.png";
+	private static final String QR_CODE_SSH_PUBLIC_KEY_PATH = "./ssh/PublicKey.png";
 	private static final String QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH = "./digitalGeppettoPrivateKey.png";
 	private static final String QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH = "./digitalGeppettoPulicKey.png";
 	private static final String QR_CODE_TOTP_KEY_PATH= "TOTP.png";
 
 	public BirthCertificateCreator() {
-		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
+		String fileName =  Utils.getLocalDirectory() + "/home/pi/Teleonome/lib/Log4J.properties";
 		PropertyConfigurator.configure(fileName);
 		logger = Logger.getLogger(getClass());
 	}
@@ -139,7 +139,7 @@ public class BirthCertificateCreator
 			        String url = htmlFile.toURI().toURL().toString();
 			        System.out.println("URL: " + url);
 
-			        OutputStream out = new FileOutputStream("BirthCertificate.pdf");
+			        OutputStream out = new FileOutputStream("/home/pi/BirthCertificate.pdf");
 
 			        //Flying Saucer part
 			        ITextRenderer renderer = new ITextRenderer();
