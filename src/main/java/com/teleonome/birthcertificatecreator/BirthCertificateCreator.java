@@ -33,6 +33,7 @@ import com.teleonome.framework.tools.SendOneCommandToArduino;
 import com.teleonome.framework.utils.Utils;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -185,6 +186,16 @@ public class BirthCertificateCreator
 		
 		htmlText.append("<table border=\"2\" cellpadding=\"2\">");
 		htmlText.append("<tr><td >Serial Number</td><td align=\"center\"><b>");
+		
+		if(serialNumber==null || serialNumber.equals("")) {
+			SendOneCommandToArduino a = new SendOneCommandToArduino("GetSerialNumber", false, null);
+			 ArrayList collectedResults = a.getCommandExecutionResults();
+			 
+			 if(collectedResults.size()==2 && ((String)collectedResults.get(1)).startsWith("Ok") ) {
+				 serialNumber = (String)collectedResults.get(0);
+			 }
+		}
+		
 		htmlText.append(serialNumber);
 		htmlText.append("</b></td></tr>");
 		
@@ -211,7 +222,7 @@ public class BirthCertificateCreator
 		htmlText.append("</b></td></tr>");
 		htmlText.append("</table>");
 		htmlText.append("</td>");;
-		
+	
 		htmlText.append("</tr></table></center></body></html>");
 		
 
