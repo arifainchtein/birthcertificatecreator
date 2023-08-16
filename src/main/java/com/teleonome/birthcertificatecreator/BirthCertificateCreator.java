@@ -61,13 +61,13 @@ public class BirthCertificateCreator
 	}
 	public void create(String teleonomeName, String totpSharedSecret, String  base32Secret, String  piUserPasswrd, String wifipwd, 
 			String postgresqlPassword, int postgresqlPort, String serialNumber) {
-		
+
 		//
 		//read the file
 		//
-		
+
 		try {
-			
+
 			try {
 				//
 				// Get byte array that represents the qrcode for the secret to publish to digital geppetto
@@ -79,45 +79,45 @@ public class BirthCertificateCreator
 				String structureSharing = "";
 				HttpURLConnection con;
 
-//				String url = "https://httpbin.org/post";
-//				String urlParameters = "name="+name+"&CurrentOrganismUniqueIdentifier="+currentOrganismUniqueIdentifier+"&dataSharing="+dataSharing+"&structureSharing=" + structureSharing;
-//				byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-//
-//				URL myurl = new URL(url);
-//				con = (HttpURLConnection) myurl.openConnection();
-//
-//				con.setDoOutput(true);
-//				con.setRequestMethod("POST");
-//				con.setRequestProperty("User-Agent", "Java client");
-//				con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//
-//				try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-//					wr.write(postData);
-//				}
-//
-//				InputStream stream = con.getInputStream();
-//				byte[] data = new byte[200000];
-//				int count = stream.read(data);
-//
-//				FileUtils.writeByteArrayToFile(new File("DigitalGeppettoSecret.png"), data);
-//				 
-				
+				//				String url = "https://httpbin.org/post";
+				//				String urlParameters = "name="+name+"&CurrentOrganismUniqueIdentifier="+currentOrganismUniqueIdentifier+"&dataSharing="+dataSharing+"&structureSharing=" + structureSharing;
+				//				byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+				//
+				//				URL myurl = new URL(url);
+				//				con = (HttpURLConnection) myurl.openConnection();
+				//
+				//				con.setDoOutput(true);
+				//				con.setRequestMethod("POST");
+				//				con.setRequestProperty("User-Agent", "Java client");
+				//				con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				//
+				//				try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+				//					wr.write(postData);
+				//				}
+				//
+				//				InputStream stream = con.getInputStream();
+				//				byte[] data = new byte[200000];
+				//				int count = stream.read(data);
+				//
+				//				FileUtils.writeByteArrayToFile(new File("DigitalGeppettoSecret.png"), data);
+				//				 
+
 				String creator="DigitalGeppetto";
 				String email=teleonomeName + "@digitalgeppetto.com";
 				//                      "QR-Code:otpauth://totp/Example.com:alice@example.com?algorithm=SHA1&digits=6&issuer=Example.com&period=30&secret=K3XT7VEUS7JFJVCX
-				
+
 				//https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/Example%3Aalice%40google.com%3Fsecret%3DJBSWY3DPEHPK3PXP%26issuer%3DExample
-					
+
 				//String base32QRText = "otpauth://totp/"+teleonomeName+":"+email +"?digits=6&period=30&secret="+ totpSharedSecret+"&issuer=" + teleonomeName;
 				String base32QRText = "otpauth://totp/"+teleonomeName+":"+email +"?digits=6&period=30&secret="+ base32Secret+"&issuer=" + teleonomeName;
 				System.out.println(base32QRText);	
 				generateQRCodeImage(base32QRText, 150, 150, QR_CODE_TOTP_KEY_PATH);
-//				
-//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
-//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
-//
-//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPrivateKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH);
-//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPublicKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH);
+				//				
+				//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPrivateKey"))), 350, 350, QR_CODE_SSH_PRIVATE_KEY_PATH);
+				//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHPublicKey"))), 350, 350, QR_CODE_SSH_PUBLIC_KEY_PATH);
+				//
+				//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPrivateKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PRIVATE_KEY_PATH);
+				//				generateQRCodeImage(FileUtils.readFileToString(new File(birthCertificateJSONObject.getString("SSHDigitalGeppettoPublicKey"))), 350, 350, QR_CODE_SSH_DIGITAL_GEPPETTO_PUBLIC_KEY_PATH);
 
 			} catch (IOException e) {
 				logger.warn(Utils.getStringException(e));;
@@ -125,39 +125,39 @@ public class BirthCertificateCreator
 				// TODO Auto-generated catch block
 				logger.warn(Utils.getStringException(e));
 			}
-			
+
 			String htmlText = generateHTMLFile( teleonomeName, totpSharedSecret,base32Secret, piUserPasswrd,wifipwd, postgresqlPassword,  postgresqlPort, serialNumber );
 			File htmlFile = new File("BC.html");
 			File birtCertificateFile = new File("BirthCertificate.pdf");
 			FileUtils.writeStringToFile(htmlFile, htmlText.toString());
 
-//			PDDocument pdf = PDDocument.load(htmlFile);
-//			Writer output = new PrintWriter("BirthCertificate.pdf", "utf-8");
-//			new PDFDomTree().writeText(pdf, output);
-//			output.close();
+			//			PDDocument pdf = PDDocument.load(htmlFile);
+			//			Writer output = new PrintWriter("BirthCertificate.pdf", "utf-8");
+			//			new PDFDomTree().writeText(pdf, output);
+			//			output.close();
 
-			 try {
-			        String url = htmlFile.toURI().toURL().toString();
-			        System.out.println("URL: " + url);
+			try {
+				String url = htmlFile.toURI().toURL().toString();
+				System.out.println("URL: " + url);
 
-			        OutputStream out = new FileOutputStream("/home/pi/BirthCertificate.pdf");
+				OutputStream out = new FileOutputStream("/home/pi/BirthCertificate.pdf");
 
-			        //Flying Saucer part
-			        ITextRenderer renderer = new ITextRenderer();
+				//Flying Saucer part
+				ITextRenderer renderer = new ITextRenderer();
 
-			        renderer.setDocument(url);
-			        renderer.layout();
-			        renderer.createPDF(out);
+				renderer.setDocument(url);
+				renderer.layout();
+				renderer.createPDF(out);
 
-			        out.close();
-			    } catch (DocumentException | IOException e) {
-			        // TODO Auto-generated catch block
-			        e.printStackTrace();
-			    }
+				out.close();
+			} catch (DocumentException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-		      
-		      
-			
+
+
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			logger.warn(Utils.getStringException(e));
@@ -179,26 +179,18 @@ public class BirthCertificateCreator
 		String now = sdf.format(date);
 		htmlText.append("Birth Certificate created on " + now ); 
 		htmlText.append("<br />");
-		
+
 		htmlText.append("<table cellpadding=\"2\"><tr>");
-			htmlText.append("<td><img src=\""+ QR_CODE_TOTP_KEY_PATH+"\" /><br></br>TOTP Secret QR Code</td><td></td><td></td>");
+		htmlText.append("<td><img src=\""+ QR_CODE_TOTP_KEY_PATH+"\" /><br></br>TOTP Secret QR Code</td><td></td><td></td>");
 		htmlText.append("<td>");
-		
+
 		htmlText.append("<table border=\"2\" cellpadding=\"2\">");
 		htmlText.append("<tr><td >Serial Number</td><td align=\"center\"><b>");
-		
-		if(serialNumber==null || serialNumber.equals("")) {
-			SendOneCommandToArduino a = new SendOneCommandToArduino("GetSerialNumber", false, null);
-			 ArrayList collectedResults = a.getCommandExecutionResults();
-			 
-			 if(collectedResults.size()==2 && ((String)collectedResults.get(1)).startsWith("Ok") ) {
-				 serialNumber = (String)collectedResults.get(0);
-			 }
-		}
-		
+
+
 		htmlText.append(serialNumber);
 		htmlText.append("</b></td></tr>");
-		
+
 		htmlText.append("<tr><td>Pi User Password</td><td align=\"center\"><b>");
 		htmlText.append(piUserPasswrd);
 		htmlText.append("</b></td></tr>");
@@ -208,23 +200,23 @@ public class BirthCertificateCreator
 		htmlText.append("<tr><td >TOTP Shared Secret</td><td align=\"center\"><b>");
 		htmlText.append(secret);
 		htmlText.append("</b></td></tr>");
-		
+
 		htmlText.append("<tr><td >TOTP Shared Secret Base32</td><td align=\"center\"><b>");
 		htmlText.append(base32secret);
 		htmlText.append("</b></td></tr>");
-//		
+		//		
 		htmlText.append("<tr><td >Postgresql Password</td><td align=\"center\"><b>");
 		htmlText.append(postgresqlPassword);
 		htmlText.append("</b></td></tr>");
-//		
+		//		
 		htmlText.append("<tr><td >Postgresql Port</td><td align=\"center\"><b>");
 		htmlText.append(postgresqlPort);
 		htmlText.append("</b></td></tr>");
 		htmlText.append("</table>");
 		htmlText.append("</td>");;
-	
+
 		htmlText.append("</tr></table></center></body></html>");
-		
+
 
 		System.out.println(htmlText);
 		return htmlText.toString();
@@ -251,19 +243,19 @@ public class BirthCertificateCreator
 		htmlText.append("<tr><td width=\"20%\">TOTP Shared Secret</td><td align=\"center\" width=\"80%\"><b>");
 		htmlText.append(secret);
 		htmlText.append("</b></td><td></td></tr>");
-		
+
 		htmlText.append("<tr><td width=\"20%\">TOTP Shared Secret Base32</td><td align=\"center\" width=\"70%\"><b>");
 		htmlText.append(base32secret);
 		htmlText.append("</b></td><td width=\"10%\"></td></tr>");
-//		
+		//		
 		htmlText.append("<tr><td width=\"20%\">Postgresql Password</td><td align=\"center\" width=\"70%\"><b>");
 		htmlText.append(postgresqlPassword);
 		htmlText.append("</b></td><td width=\"10%\"></td></tr>");
-//		
+		//		
 		htmlText.append("<tr><td width=\"20%\">Postgresql Port</td><td align=\"center\" width=\"70%\"><b>");
 		htmlText.append(postgresqlPort);
 		htmlText.append("</b></td><td width=\"10%\"></td></tr>");
-		
+
 		htmlText.append("<tr>");
 		htmlText.append("<td width=\"98%\"><img src=\""+ QR_CODE_TOTP_KEY_PATH+"\" /><br></br>TOTP Secret QR Code</td><td></td><td></td></tr>");
 		htmlText.append("</table></center></body></html>");
@@ -289,9 +281,9 @@ public class BirthCertificateCreator
 
 		// $secret   $base32secret  $pwd   $wifipwd 
 		BirthCertificateCreator b2 = new BirthCertificateCreator();
-	//	b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
-//		
-		if(args.length==8) {
+		//	b2.create("Cleotilde", "M2RjZGZiZWIxYT",  "M2RjZGZiZWIxYT=",  "YmYyYWE4OW"   ,"YjgwMmQ3", "ZTYwMTFmOT", 29923);
+		//		
+		if(args.length>=7) {
 			String teleonomeName=args[0];
 			String secret=args[1];
 			String base32secret=args[2];
@@ -299,14 +291,24 @@ public class BirthCertificateCreator
 			String wifipwd=args[4];
 			String postgresqlPassword = args[5];
 			int postgresqlPort = Integer.parseInt(args[6]);
-			String serialNumber = args[7];
+			String serialNumber="";
+			if(args.length==7) {
+				SendOneCommandToArduino a = new SendOneCommandToArduino("GetSerialNumber", false, null);
+				ArrayList collectedResults = a.getCommandExecutionResults();
+				if(collectedResults.size()==2 && ((String)collectedResults.get(1)).startsWith("Ok") ) {
+					serialNumber = (String)collectedResults.get(0);
+				}
+			}else {
+				 serialNumber = args[7];
+			}
+
 			BirthCertificateCreator b = new BirthCertificateCreator();
 			b.create(teleonomeName, secret,  base32secret,  pwd  ,wifipwd, postgresqlPassword, postgresqlPort, serialNumber);
 		}else {
 			for(int i=0;i<args.length;i++) {
 				System.out.println("i=" +i + " "  + args[i]);
-				
-				
+
+
 			}
 			System.out.println("Usage sudo sh CreateBirthCertificate.sh teleonomeName secret  base32secret  pwd   wifipwd postgresqlPassword, postgresqlPort, serialnumber");
 			System.exit(0);
